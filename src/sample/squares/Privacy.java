@@ -7,10 +7,10 @@ public class Privacy extends Square {
     private Random random;
     private String name;
     private int price;
-    private Enum type;
+    private Type type;
     private int positionOnABoard;
 
-    public Privacy(String name, Enum type, int price, int positionOnABoard) {
+    public Privacy(String name, Type type, int price, int positionOnABoard) {
         super(name, type, positionOnABoard);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
@@ -47,11 +47,12 @@ public class Privacy extends Square {
     }
 
     @Override
-    public Enum getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum type) {
+    @Override
+    public void setType(Type type) {
         this.type = type;
     }
 

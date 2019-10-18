@@ -30,8 +30,14 @@ public class Player {
     }
 
     public int rollTheDice() {
-        random = new Random();
-        return (random.nextInt(6) + 1);
+
+        int min = 1;
+        int max = 3;
+        int diff = max - min;
+        Random random = new Random();
+        int i = random.nextInt(diff + 1);
+        i += min;
+        return i;
     }
 
     public String getColorID() {

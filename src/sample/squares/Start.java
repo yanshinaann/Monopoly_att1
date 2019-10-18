@@ -2,11 +2,11 @@ package sample.squares;
 
 public class Start extends Square {
     private String name;
-    private Enum type;
+    private Type type;
     private int positionOnABoard;
 
-    public Start(String name, Enum type, int positionOnABoard) {
-        super(name, type,positionOnABoard);
+    public Start(String name, Type type, int positionOnABoard) {
+        super(name, type,  positionOnABoard);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.type = type;
@@ -23,11 +23,11 @@ public class Start extends Square {
     }
 
     @Override
-    public Enum getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

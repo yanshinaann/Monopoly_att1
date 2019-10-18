@@ -1,33 +1,39 @@
 package sample;
 
-import sample.squares.Privacy;
-import sample.squares.Square;
-import sample.squares.Start;
-import sample.squares.Type;
+import sample.squares.*;
 
 import java.util.*;
 import java.util.List;
 import java.util.Random;
 
+import static sample.squares.Type.PRIVACY;
+import static sample.squares.Type.SPECIAL;
+
+
 public class GameBoard {
 
     public Player player;
-    public List<Player> playersV1;
+    public CircularList<Player> playersV1;
     public int numberOfPlayers;
     public int numberOfRounds;
     public Map<Square, CircularList> positionPlayer = new HashMap<>();
     public Map<CircularList, Square> playerPosition = new HashMap<>();
 
+    public Map<Square, Player> squaresBoughtByPlayer = new HashMap<>();
+    public Map<Player, Square> playersSquares = new HashMap<>();
+
+
     //  public List<Player> players;
 
     // public Map<Privacy, Player> positionOfEachPlayer;
     //public Privacy gameSquares;
-    public List<Square> allGameSquares;
- //   public Map<Integer, Privacy> gameBoard = new HashMap<>();//не нужно
+    public List<Square> allGameSquares = new CircularList<>();
+    //   public Map<Integer, Privacy> gameBoard = new HashMap<>();//не нужно
 
 
     Scanner sc = new Scanner(System.in);
-    Random random;
+    private Random random1 = new Random();
+    private Boolean randomBoolean;
 
     public void addpalyer(String name) {
         player = new Player(name);
@@ -37,22 +43,47 @@ public class GameBoard {
 
 
     public void createGameDeck() {
-        Start gameSquareStart = new Start("Start", Type.SPECIAL, 1);
-        Privacy gameSquare1 = new Privacy("Avenue", Type.PRIVACY, cost(), 2);
-        Privacy gameSquareRoad = new Privacy("Road", Type.STATE, cost(), 3);
+
+        Start gameSquareStart = new Start("Start", SPECIAL, 1);
+        allGameSquares.add(gameSquareStart);
+        squaresBoughtByPlayer.put(gameSquareStart, null);
+        Privacy gameSquare1 = new Privacy("Avenue", PRIVACY, cost(), 2);
+        allGameSquares.add(gameSquare1);
+        squaresBoughtByPlayer.put(gameSquare1, null);
+        Privacy gameSquareRoad = new Privacy("Road", PRIVACY, cost(), 3);
+        allGameSquares.add(gameSquareRoad);
+        squaresBoughtByPlayer.put(gameSquareRoad, null);
+        Bonus gameSquareBonus = new Bonus("Bonus", SPECIAL, bonus(), 4);
+        allGameSquares.add(gameSquareBonus);
+        squaresBoughtByPlayer.put(gameSquareBonus, null);
 
     }
+
 
     public int cost() {
-        random = new Random();
-        return (random.nextInt(300) + 1);
+        int min = 1;
+        int max = 300;
+        int diff = max - min;
+        Random random = new Random();
+        int i = random.nextInt(diff + 1);
+        i += min;
+        return i;
     }
 
+    public int bonus() {
+        int min = 1;
+        int max = 500;
+        int diff = max - min;
+        Random random = new Random();
+        int i = random.nextInt(diff + 1);
+        i += min;
+        return i;
+    }
 
     public void play() {
 
         createGameDeck();
-        playersV1 = new LinkedList<>();
+        playersV1 = new CircularList<>();
         System.out.print("Enter count of players: ");
         numberOfPlayers = sc.nextInt();
         String name;
@@ -62,13 +93,49 @@ public class GameBoard {
             System.out.print("Enter name: ");
             name = sc.next();
             addpalyer(name);
-            //playersV1.display();
+
         }
 
         while (numberOfRounds <= 10) {
-            for (int i = 0; i < playersV1.size(); i++) {
-                
+            for (int i = 0; i < numberOfPlayers; i++) {
+                Player player = playersV1.get(i);
+                int rollToDice = player.rollTheDice();
+                int getPos = player.getPosition();
+                int currentPosition = rollToDice + getPos - 1;
+                if (currentPosition > allGameSquares.size()) currentPosition -= allGameSquares.size();
+                player.setPosition(currentPosition);
+                Square square = allGameSquares.get(currentPosition);
+                playerPosition.put(playersV1, square);
+                Square currentSquare = playerPosition.get(playersV1);
+                System.out.print("Player " + player.colorID + " now on field:" + player.getPosition() + "\n");
+                System.out.print("Name: " + currentSquare.getName() + "\n");
+                int money = player.getMoney();
+                switch (square.getType()) {
+                    case PRIVACY:
+                        if (squaresBoughtByPlayer.get(square) != null) {
+                            System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).colorID);
+                        } else {
+                            System.out.println("The square is free");
+                            randomBoolean = random1.nextBoolean();
+                            if (randomBoolean) {
+                                player.setMoney(money - ((Privacy) square).getPrice());
+                                System.out.println("-" + ((Privacy) square).getPrice());
+                                squaresBoughtByPlayer.put(square, player);
+                                System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).colorID);
+                            }
+                        }
+                        break;
+                    case SPECIAL:
+                        int bonus = bonus();
+                        player.setMoney(player.getMoney() + bonus);
+                        System.out.println("+"+ bonus);
+                        break;
+
+                }
+                System.out.println(player.getMoney());
+                System.out.print("\n");
             }
+            numberOfRounds++;
         }
 
 

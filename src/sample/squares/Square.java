@@ -2,10 +2,10 @@ package sample.squares;
 
 public class Square {
     private String name;
-    private Enum type;
+    private Type type;
     private int positionOnABoard;
 
-    public Square(String name, Enum  type, int positionOnABoard) {
+    public Square(String name, Type type, int positionOnABoard) {
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.type = type;
@@ -19,11 +19,11 @@ public class Square {
         this.name = name;
     }
 
-    public Enum getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum type) {
+    public void setType(Type type) {
         this.type = type;
     }
 

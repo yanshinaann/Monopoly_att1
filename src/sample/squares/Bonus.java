@@ -2,9 +2,11 @@ package sample.squares;
 
 import sample.squares.Square;
 
+import java.util.Random;
+
 public class Bonus extends Square {
     private String name;
-    private Enum type;
+    private Type type;
     private int gift;
     private int positionOnABoard;
 
@@ -18,14 +20,7 @@ public class Bonus extends Square {
         this.name = name;
     }
 
-    @Override
-    public Enum getType() {
-        return type;
-    }
 
-    public void setType(Enum type) {
-        this.type = type;
-    }
 
     public int getGift() {
         return gift;
@@ -43,7 +38,17 @@ public class Bonus extends Square {
         this.positionOnABoard = positionOnABoard;
     }
 
-    public Bonus(String name, Enum type, int gift, int positionOnABoard) {
+    @Override
+    public Type getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Bonus(String name, Type type, int gift, int positionOnABoard) {
         super(name, type, positionOnABoard);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
