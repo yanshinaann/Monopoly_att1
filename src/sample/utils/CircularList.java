@@ -1,4 +1,4 @@
-package sample;
+package sample.utils;
 import java.util.ArrayList;
 
 public class CircularList<E> extends ArrayList<E>

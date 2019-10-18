@@ -1,27 +1,14 @@
-package sample;
+package sample.player;
 
-import sample.squares.Privacy;
-
-import java.util.List;
 import java.util.Random;
 
 public class Player {
 
-    public Random random;
-
-
-    String colorID;
+    private String colorID;
     private int money;
-    private List<Privacy> boughtGameSquares;
+    //private List<Privacy> boughtGameSquares;
     private int position;
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
+    private int countCircles;
 
     public Player(String colorID) {
         this.colorID = colorID;
@@ -32,12 +19,30 @@ public class Player {
     public int rollTheDice() {
 
         int min = 1;
-        int max = 3;
+        int max = 9;
         int diff = max - min;
         Random random = new Random();
         int i = random.nextInt(diff + 1);
         i += min;
         return i;
+    }
+
+
+    public int getCountCircles() {
+        return countCircles;
+    }
+
+    public void setCountCircles(int countCircles) {
+        this.countCircles = countCircles;
+    }
+
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getColorID() {

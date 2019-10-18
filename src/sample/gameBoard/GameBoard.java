@@ -1,13 +1,14 @@
-package sample;
+package sample.gameBoard;
 
+import sample.player.Player;
 import sample.squares.*;
+import sample.utils.CircularList;
 
 import java.util.*;
 import java.util.List;
 import java.util.Random;
 
-import static sample.squares.Type.PRIVACY;
-import static sample.squares.Type.SPECIAL;
+import static sample.squares.Type.*;
 
 
 public class GameBoard {
@@ -44,7 +45,7 @@ public class GameBoard {
 
     public void createGameDeck() {
 
-        Start gameSquareStart = new Start("Start", SPECIAL, 1);
+        Start gameSquareStart = new Start("Start", START, 1);
         allGameSquares.add(gameSquareStart);
         squaresBoughtByPlayer.put(gameSquareStart, null);
         Privacy gameSquare1 = new Privacy("Avenue", PRIVACY, cost(), 2);
@@ -53,9 +54,25 @@ public class GameBoard {
         Privacy gameSquareRoad = new Privacy("Road", PRIVACY, cost(), 3);
         allGameSquares.add(gameSquareRoad);
         squaresBoughtByPlayer.put(gameSquareRoad, null);
-        Bonus gameSquareBonus = new Bonus("Bonus", SPECIAL, bonus(), 4);
+        Bonus gameSquareBonus = new Bonus("Bonus", BONUS, bonus(), 4);
         allGameSquares.add(gameSquareBonus);
         squaresBoughtByPlayer.put(gameSquareBonus, null);
+        Jail gameSquareJail = new Jail("Jail", JAIL, bonus(), 5);
+        allGameSquares.add(gameSquareJail);
+        squaresBoughtByPlayer.put(gameSquareJail, null);
+        Privacy gameSquare2 = new Privacy("Connecticut avenue", PRIVACY, cost(), 6);
+        allGameSquares.add(gameSquare2);
+        squaresBoughtByPlayer.put(gameSquare2, null);
+        Privacy gameSquare3 = new Privacy("Vermont avenue", PRIVACY, cost(), 7);
+        allGameSquares.add(gameSquare3);
+        squaresBoughtByPlayer.put(gameSquare3, null);
+        Privacy gameSquare4 = new Privacy("Oriental avenue", PRIVACY, cost(), 8);
+        allGameSquares.add(gameSquare4);
+        squaresBoughtByPlayer.put(gameSquare4, null);
+        Privacy gameSquareElectricCompany = new Privacy("ElectricCompany", PRIVACY, cost(), 9);
+        allGameSquares.add(gameSquareElectricCompany);
+        squaresBoughtByPlayer.put(gameSquareElectricCompany, null);
+
 
     }
 
@@ -102,18 +119,21 @@ public class GameBoard {
                 int rollToDice = player.rollTheDice();
                 int getPos = player.getPosition();
                 int currentPosition = rollToDice + getPos - 1;
+
                 if (currentPosition > allGameSquares.size()) currentPosition -= allGameSquares.size();
                 player.setPosition(currentPosition);
                 Square square = allGameSquares.get(currentPosition);
                 playerPosition.put(playersV1, square);
+
                 Square currentSquare = playerPosition.get(playersV1);
-                System.out.print("Player " + player.colorID + " now on field:" + player.getPosition() + "\n");
+                System.out.print("Player " + player.getColorID() + " now on field:" + player.getPosition() + "\n");
                 System.out.print("Name: " + currentSquare.getName() + "\n");
+
                 int money = player.getMoney();
                 switch (square.getType()) {
                     case PRIVACY:
                         if (squaresBoughtByPlayer.get(square) != null) {
-                            System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).colorID);
+                            System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID());
                         } else {
                             System.out.println("The square is free");
                             randomBoolean = random1.nextBoolean();
@@ -121,21 +141,34 @@ public class GameBoard {
                                 player.setMoney(money - ((Privacy) square).getPrice());
                                 System.out.println("-" + ((Privacy) square).getPrice());
                                 squaresBoughtByPlayer.put(square, player);
-                                System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).colorID);
+                                System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID());
                             }
                         }
                         break;
-                    case SPECIAL:
+                    case BONUS:
                         int bonus = bonus();
                         player.setMoney(player.getMoney() + bonus);
-                        System.out.println("+"+ bonus);
+                        System.out.println("Bonus: +" + bonus);
                         break;
-
+                    case START:
+                        int bonusStart = bonus();
+                        player.setMoney(player.getMoney() + bonusStart);
+                        System.out.println("Bonus for the circle: +" + bonusStart);
+                        break;
+                    case JAIL:
+                        int fine = bonus();
+                        player.setMoney(player.getMoney() - fine);
+                        System.out.println("Jail fine: -" + fine);
+                        break;
                 }
-                System.out.println(player.getMoney());
+                System.out.println("Amount money: " + player.getMoney());
+                player.setCountCircles(player.getCountCircles() + 1);
+                System.out.println("Number of circles: " + player.getCountCircles());
                 System.out.print("\n");
+
             }
             numberOfRounds++;
+
         }
 
 
