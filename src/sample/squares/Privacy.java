@@ -1,26 +1,23 @@
-package sample;
+package sample.squares;
 
-import java.awt.*;
 import java.util.Random;
 
-public class GameSquares extends Square {
+public class Privacy extends Square {
 
     private Random random;
     private String name;
     private int price;
     private Enum type;
+    private int positionOnABoard;
 
-    public GameSquares(String name, Enum type, int price) {
-        super(name, type);
+    public Privacy(String name, Enum type, int price, int positionOnABoard) {
+        super(name, type, positionOnABoard);
+        this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.price = price;
         this.type = type;
     }
 
-    public int cost() {
-        random = new Random();
-        return (random.nextInt(300) + 1);
-    }
 
 
     public Random getRandom() {
@@ -56,6 +53,14 @@ public class GameSquares extends Square {
 
     public void setType(Enum type) {
         this.type = type;
+    }
+
+    public int getPositionOnABoard() {
+        return positionOnABoard;
+    }
+
+    public void setPositionOnABoard(int positionOnABoard) {
+        this.positionOnABoard = positionOnABoard;
     }
 
     //private boolean isBought;

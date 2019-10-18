@@ -1,37 +1,19 @@
 package sample;
 
+import sample.squares.Privacy;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class Player {
 
-    private Counter counter;
-    private Money money;
-    private List<GameSquares> gameSquares;
-    private int position;
     public Random random;
-    private int bank;
 
-    public Player(Counter counter, String name) {
-        this.name = name;
-        this.counter = counter;
-        money = new Money();
-        setMoney(money);
-    }
 
-    public int getBank() {
-        return bank;
-    }
-
-    public void setBank(int bank) {
-        this.bank = bank;
-    }
-
-    public int rollTheDice() {
-        random = new Random();
-        return (random.nextInt(6)+1);
-    }
+    String colorID;
+    private int money;
+    private List<Privacy> boughtGameSquares;
+    private int position;
 
     public int getPosition() {
         return position;
@@ -41,51 +23,32 @@ public class Player {
         this.position = position;
     }
 
+    public Player(String colorID) {
+        this.colorID = colorID;
+        setMoney(5000);
 
-    public void setMoney(Money money) {
-        this.money = money;
     }
 
-    public Counter getCounter() {
-        return counter;
+    public int rollTheDice() {
+        random = new Random();
+        return (random.nextInt(6) + 1);
     }
 
-    public void setCounter(Counter counter) {
-        this.counter = counter;
+    public String getColorID() {
+        return colorID;
     }
 
-//     public void setMoney(Map<Money, Player> money) {
-//        Money startCapital = new Money(10000);
-//    }
-
-    //   public GameSquares getCurrent() {
-    //    return current;
-    // }
-
-//   // public void setCurrent(GameSquares current) {
-//        this.current = current;
-//    }
-
-    public String getName() {
-        return name;
+    public void setColorID(String colorID) {
+        this.colorID = colorID;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Money getMoney() {
+    public int getMoney() {
         return money;
     }
 
-
-    public List<GameSquares> getGameSquares() {
-        return gameSquares;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
-    public void setGameSquares(List<GameSquares> gameSquares) {
-        this.gameSquares = gameSquares;
-    }
-    private String name;
 
 }
