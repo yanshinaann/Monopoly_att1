@@ -5,7 +5,6 @@ import sample.squares.*;
 import sample.utils.CircularList;
 
 import java.util.*;
-import java.util.List;
 import java.util.Random;
 
 import static sample.squares.Type.*;
@@ -23,8 +22,8 @@ public class GameBoard {
     public Map<Square, Player> squaresBoughtByPlayer = new HashMap<>();
     //public Map<Player, Square> playersSquares = new HashMap<>();
 
-    public CircularList<Square> allGameSquares = new CircularList<>();
-
+    //public CircularList<Square> allGameSquares = new CircularList<>();
+    public CircularList<Square> allGameSquares1 = new CircularList<>();
 
 
     Scanner sc = new Scanner(System.in);
@@ -38,34 +37,46 @@ public class GameBoard {
     }
 
 
-    public void createGameDeck() {
+    public void createGameDeck() throws SquareException, Exception {
+//        Component start1 = new Start1();
+//        start1 = new Privacy1(start1);
+//        allGameSquares1.add(start1);
+//
+//        for (String part : start1.getDescription()){
+//            System.out.println("Component: "+part);
+//        }
 
-        Start gameSquareStart = new Start("Start", START, 1);
-        allGameSquares.add(gameSquareStart);
+//       SquareInt privacy1 = SquareFactory.createSquare(PRIVACY, "Moscow", cost(), 2);
+//       allGameSquares1.add(privacy1);
+//        SquareInt jail = SquareFactory.createSquare(JAIL, "Jail", cost(), 3);
+//        allGameSquares1.add(jail);
+
+        Square gameSquareStart = SquareFactory.createSquare("Start", START, 0 ,1);
+        allGameSquares1.add(gameSquareStart);
         squaresBoughtByPlayer.put(gameSquareStart, null);
-        Privacy gameSquare1 = new Privacy("Avenue", PRIVACY, cost(), 2);
-        allGameSquares.add(gameSquare1);
+        Square gameSquare1 = SquareFactory.createSquare("Avenue", PRIVACY, cost(), 2);
+        allGameSquares1.add(gameSquare1);
         squaresBoughtByPlayer.put(gameSquare1, null);
-        Privacy gameSquareRoad = new Privacy("Road", PRIVACY, cost(), 3);
-        allGameSquares.add(gameSquareRoad);
+        Square gameSquareRoad = SquareFactory.createSquare("Road", PRIVACY, cost(), 3);
+        allGameSquares1.add(gameSquareRoad);
         squaresBoughtByPlayer.put(gameSquareRoad, null);
-        Bonus gameSquareBonus = new Bonus("Bonus", BONUS, bonus(), 4);
-        allGameSquares.add(gameSquareBonus);
+        Square gameSquareBonus = SquareFactory.createSquare("Bonus", BONUS, bonus(), 4);
+        allGameSquares1.add(gameSquareBonus);
         squaresBoughtByPlayer.put(gameSquareBonus, null);
-        Jail gameSquareJail = new Jail("Jail", JAIL, bonus(), 5);
-        allGameSquares.add(gameSquareJail);
+        Square gameSquareJail =SquareFactory.createSquare("Jail", JAIL, bonus(), 5);
+        allGameSquares1.add(gameSquareJail);
         squaresBoughtByPlayer.put(gameSquareJail, null);
-        Privacy gameSquare2 = new Privacy("Connecticut avenue", PRIVACY, cost(), 6);
-        allGameSquares.add(gameSquare2);
+        Square gameSquare2 = SquareFactory.createSquare("Connecticut avenue", PRIVACY, cost(), 6);
+        allGameSquares1.add(gameSquare2);
         squaresBoughtByPlayer.put(gameSquare2, null);
-        Privacy gameSquare3 = new Privacy("Vermont avenue", PRIVACY, cost(), 7);
-        allGameSquares.add(gameSquare3);
+        Square gameSquare3 = SquareFactory.createSquare("Vermont avenue", PRIVACY, cost(), 7);
+        allGameSquares1.add(gameSquare3);
         squaresBoughtByPlayer.put(gameSquare3, null);
-        Privacy gameSquare4 = new Privacy("Oriental avenue", PRIVACY, cost(), 8);
-        allGameSquares.add(gameSquare4);
+        Square gameSquare4 = SquareFactory.createSquare("Oriental avenue", PRIVACY, cost(), 8);
+        allGameSquares1.add(gameSquare4);
         squaresBoughtByPlayer.put(gameSquare4, null);
-        Privacy gameSquareElectricCompany = new Privacy("ElectricCompany", PRIVACY, cost(), 9);
-        allGameSquares.add(gameSquareElectricCompany);
+        Square gameSquareElectricCompany = SquareFactory.createSquare("ElectricCompany", PRIVACY, cost(), 9);
+        allGameSquares1.add(gameSquareElectricCompany);
         squaresBoughtByPlayer.put(gameSquareElectricCompany, null);
 
 
@@ -100,7 +111,7 @@ public class GameBoard {
         i += min;
         return i;
     }
-    public void play() {
+    public void play() throws SquareException, Exception {
 
         createGameDeck();
         playersV1 = new CircularList<>();
@@ -123,9 +134,9 @@ public class GameBoard {
                 int getPos = player.getPosition();
                 int currentPosition = rollToDice + getPos - 1;
 
-                if (currentPosition > allGameSquares.size()) currentPosition -= allGameSquares.size();
+                if (currentPosition > allGameSquares1.size()) currentPosition -= allGameSquares1.size();
                 player.setPosition(currentPosition);
-                Square square = allGameSquares.get(currentPosition);
+                Square square = allGameSquares1.get(currentPosition);
                 playerPosition.put(playersV1, square);
 
                 Square currentSquare = playerPosition.get(playersV1);
@@ -144,8 +155,8 @@ public class GameBoard {
                             System.out.println("The square is free");
                             randomBoolean = random1.nextBoolean();
                             if (randomBoolean) {
-                                player.setMoney(money - ((Privacy) square).getPrice());
-                                System.out.println("Price for square: -" + ((Privacy) square).getPrice());
+                             player.setMoney(money - ((Privacy) square).getPrice());
+                           System.out.println("Price for square: -" + ((Privacy) square).getPrice());
                                 squaresBoughtByPlayer.put(square, player);
                                 System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID());
                             }

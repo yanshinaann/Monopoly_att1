@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.gameBoard.GameBoard;
+import sample.squares.SquareException;
 
 public class Main extends Application {
 
@@ -19,7 +20,7 @@ public class Main extends Application {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SquareException, Exception {
         GameBoard gameBoard = new GameBoard();
         gameBoard.play();
         launch(args);

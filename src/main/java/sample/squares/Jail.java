@@ -1,13 +1,13 @@
 package sample.squares;
 
-public class Jail extends Square {
+public class Jail extends SquareInmpliments {
     private String name;
     private Type type;
     private int fine;
     private int positionOnABoard;
 
     public Jail(String name, Type type, int fine, int positionOnABoard1) {
-        super(name, type, positionOnABoard1);
+        super(name,  positionOnABoard1,type);
         this.fine = fine;
         this.positionOnABoard = positionOnABoard1;
         this.name = name;

@@ -2,7 +2,7 @@ package sample.squares;
 
 import java.util.Random;
 
-public class Privacy extends Square {
+public class Privacy extends SquareInmpliments{
 
     private Random random;
     private String name;
@@ -11,7 +11,7 @@ public class Privacy extends Square {
     private int positionOnABoard;
 
     public Privacy(String name, Type type, int price, int positionOnABoard) {
-        super(name, type, positionOnABoard);
+        super(name,  positionOnABoard, type);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.price = price;

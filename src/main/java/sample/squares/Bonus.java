@@ -1,10 +1,6 @@
 package sample.squares;
 
-import sample.squares.Square;
-
-import java.util.Random;
-
-public class Bonus extends Square {
+public class Bonus extends SquareInmpliments {
     private String name;
     private Type type;
     private int gift;
@@ -49,7 +45,7 @@ public class Bonus extends Square {
     }
 
     public Bonus(String name, Type type, int gift, int positionOnABoard) {
-        super(name, type, positionOnABoard);
+        super(name, positionOnABoard, type);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.type = type;
