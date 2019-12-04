@@ -1,8 +1,11 @@
-package sample.squares;
+package sample.squares.privacy;
+
+import sample.squares.square.Type;
+import sample.squares.square.SquareInmpliments;
 
 import java.util.Random;
 
-public class Privacy extends SquareInmpliments{
+public class Privacy extends SquareInmpliments {
 
     private Random random;
     private String name;
@@ -11,13 +14,12 @@ public class Privacy extends SquareInmpliments{
     private int positionOnABoard;
 
     public Privacy(String name, Type type, int price, int positionOnABoard) {
-        super(name,  positionOnABoard, type);
+        super(name, positionOnABoard, price, type);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.price = price;
         this.type = type;
     }
-
 
 
     public Random getRandom() {
@@ -65,7 +67,6 @@ public class Privacy extends SquareInmpliments{
     }
 
     //private boolean isBought;
-
 
 
 }

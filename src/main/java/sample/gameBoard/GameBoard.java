@@ -1,13 +1,19 @@
 package sample.gameBoard;
 
 import sample.player.Player;
-import sample.squares.*;
+import sample.squares.bonus.Bonus;
+import sample.squares.privacy.Privacy;
+import sample.squares.square.Square;
+import sample.squares.square.SquareException;
+import sample.squares.square.SquareFactory;
 import sample.utils.CircularList;
 
 import java.util.*;
 import java.util.Random;
 
-import static sample.squares.Type.*;
+import static sample.squares.bonus.BonusType.MINUS;
+import static sample.squares.bonus.BonusType.PLUS;
+import static sample.squares.square.Type.*;
 
 
 public class GameBoard {
@@ -16,7 +22,7 @@ public class GameBoard {
     public CircularList<Player> playersV1;
     public int numberOfPlayers;
     public int numberOfRounds;
-   // public Map<Square, CircularList> positionPlayer = new HashMap<>();
+    // public Map<Square, CircularList> positionPlayer = new HashMap<>();
     public Map<CircularList, Square> playerPosition = new HashMap<>();
 
     public Map<Square, Player> squaresBoughtByPlayer = new HashMap<>();
@@ -51,7 +57,7 @@ public class GameBoard {
 //        SquareInt jail = SquareFactory.createSquare(JAIL, "Jail", cost(), 3);
 //        allGameSquares1.add(jail);
 
-        Square gameSquareStart = SquareFactory.createSquare("Start", START, 0 ,1);
+        Square gameSquareStart = SquareFactory.createSquare("Start", START, 0, 1);
         allGameSquares1.add(gameSquareStart);
         squaresBoughtByPlayer.put(gameSquareStart, null);
         Square gameSquare1 = SquareFactory.createSquare("Avenue", PRIVACY, cost(), 2);
@@ -60,10 +66,10 @@ public class GameBoard {
         Square gameSquareRoad = SquareFactory.createSquare("Road", PRIVACY, cost(), 3);
         allGameSquares1.add(gameSquareRoad);
         squaresBoughtByPlayer.put(gameSquareRoad, null);
-        Square gameSquareBonus = SquareFactory.createSquare("Bonus", BONUS, bonus(), 4);
+        Square gameSquareBonus = SquareFactory.createSquare("Bonus+", BONUS, bonus(), 4, PLUS);
         allGameSquares1.add(gameSquareBonus);
         squaresBoughtByPlayer.put(gameSquareBonus, null);
-        Square gameSquareJail =SquareFactory.createSquare("Jail", JAIL, bonus(), 5);
+        Square gameSquareJail = SquareFactory.createSquare("Jail", JAIL, bonus(), 5);
         allGameSquares1.add(gameSquareJail);
         squaresBoughtByPlayer.put(gameSquareJail, null);
         Square gameSquare2 = SquareFactory.createSquare("Connecticut avenue", PRIVACY, cost(), 6);
@@ -78,7 +84,9 @@ public class GameBoard {
         Square gameSquareElectricCompany = SquareFactory.createSquare("ElectricCompany", PRIVACY, cost(), 9);
         allGameSquares1.add(gameSquareElectricCompany);
         squaresBoughtByPlayer.put(gameSquareElectricCompany, null);
-
+        Square gameSquareBonus1 = SquareFactory.createSquare("Bonus-", BONUS, bonus(), 10, MINUS);
+        allGameSquares1.add(gameSquareBonus1);
+        squaresBoughtByPlayer.put(gameSquareBonus1, null);
 
     }
 
@@ -102,6 +110,7 @@ public class GameBoard {
         i += min;
         return i;
     }
+
     public int fee() {
         int min = 300;
         int max = 600;
@@ -111,6 +120,7 @@ public class GameBoard {
         i += min;
         return i;
     }
+
     public void play() throws SquareException, Exception {
 
         createGameDeck();
@@ -126,7 +136,7 @@ public class GameBoard {
             addpalyer(name);
 
         }
-        while (numberOfRounds <= 10){
+        while (numberOfRounds <= 10) {
             // while (numberOfRounds <= 10) {
             for (int i = 0; i < numberOfPlayers; i++) {
                 Player player = playersV1.get(i);
@@ -148,15 +158,15 @@ public class GameBoard {
                     case PRIVACY:
                         if (squaresBoughtByPlayer.get(square) != null) {//проверить,куплено ли поле именно этим игроком
                             int fee = fee();
-                            System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID()+". You have yo pay fee. ");
+                            System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID() + ". You have to pay fee. ");
                             player.setMoney(money - fee);
                             System.out.println("Fee: " + (-fee));
                         } else {
                             System.out.println("The square is free");
                             randomBoolean = random1.nextBoolean();
                             if (randomBoolean) {
-                             player.setMoney(money - ((Privacy) square).getPrice());
-                           System.out.println("Price for square: -" + ((Privacy) square).getPrice());
+                                player.setMoney(money - ((Privacy) square).getPrice());
+                                System.out.println("Price for square: -" + ((Privacy) square).getPrice());
                                 squaresBoughtByPlayer.put(square, player);
                                 System.out.println("The square is bought by " + squaresBoughtByPlayer.get(square).getColorID());
                             }
@@ -164,8 +174,14 @@ public class GameBoard {
                         break;
                     case BONUS:
                         int bonus = bonus();
-                        player.setMoney(player.getMoney() + bonus);
-                        System.out.println("Bonus: +" + bonus);
+                        //System.out.println(((Bonus) square).getBonusType());
+                        if (((Bonus) square).getBonusType() == MINUS) {
+                            player.setMoney(player.getMoney() - bonus);
+                            System.out.println("Bonus: -" + bonus);
+                        } else {
+                            player.setMoney(player.getMoney() + bonus);
+                            System.out.println("Bonus: +" + bonus);
+                        }
                         break;
                     case START:
                         int bonusStart = bonus();

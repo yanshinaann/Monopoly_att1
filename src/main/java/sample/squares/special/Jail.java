@@ -1,4 +1,7 @@
-package sample.squares;
+package sample.squares.special;
+
+import sample.squares.square.Type;
+import sample.squares.square.SquareInmpliments;
 
 public class Jail extends SquareInmpliments {
     private String name;
@@ -7,12 +10,13 @@ public class Jail extends SquareInmpliments {
     private int positionOnABoard;
 
     public Jail(String name, Type type, int fine, int positionOnABoard1) {
-        super(name,  positionOnABoard1,type);
+        super(name, positionOnABoard1, fine, type);
         this.fine = fine;
         this.positionOnABoard = positionOnABoard1;
         this.name = name;
         this.type = type;
     }
+
     @Override
     public String getName() {
         return name;

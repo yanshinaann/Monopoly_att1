@@ -1,12 +1,15 @@
-package sample.squares;
+package sample.squares.special;
+
+import sample.squares.square.Type;
+import sample.squares.square.SquareInmpliments;
 
 public class Start extends SquareInmpliments {
     private String name;
     private Type type;
     private int positionOnABoard;
 
-    public Start(String name, Type type, int positionOnABoard)  {
-        super(name,   positionOnABoard, type);
+    public Start(String name, Type type, int bonus, int positionOnABoard) {
+        super(name, positionOnABoard, bonus, type);
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.type = type;

@@ -1,4 +1,4 @@
-package sample.squares;
+package sample.squares.square;
 
 import java.util.Random;
 
@@ -6,11 +6,27 @@ public class SquareInmpliments implements Square {
 
     private Random random;
     private String name;
-    private int price;
+    protected int price;
     private Type type;
     private int positionOnABoard;
 
-    public SquareInmpliments(String name, int positionOnABoard, Type type) {
+
+    public SquareInmpliments() {
+
+    }
+
+    public SquareInmpliments(String name, int positionOnABoard) {
+        this.positionOnABoard = positionOnABoard;
+        this.name = name;
+
+    }
+    public SquareInmpliments(String name, int positionOnABoard, int price) {
+        this.positionOnABoard = positionOnABoard;
+        this.name = name;
+        this.price = price;
+    }
+
+    public SquareInmpliments(String name, int positionOnABoard, int price, Type type) {
         this.positionOnABoard = positionOnABoard;
         this.name = name;
         this.price = price;
@@ -52,6 +68,7 @@ public class SquareInmpliments implements Square {
     public void setType(Type type) {
         this.type = type;
     }
+
     @Override
     public int getPositionOnABoard() {
         return positionOnABoard;

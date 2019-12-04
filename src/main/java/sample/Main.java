@@ -1,12 +1,9 @@
 package sample;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.gameBoard.GameBoard;
-import sample.squares.SquareException;
+import sample.squares.square.SquareException;
 
 public class Main extends Application {
 
