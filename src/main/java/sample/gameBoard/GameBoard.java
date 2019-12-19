@@ -1,13 +1,20 @@
 package sample.gameBoard;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import sample.player.Player;
 import sample.squares.bonus.Bonus;
+import sample.squares.json.InformationOfGame;
 import sample.squares.privacy.Privacy;
 import sample.squares.square.Square;
 import sample.squares.square.SquareException;
 import sample.squares.square.SquareFactory;
 import sample.utils.CircularList;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Reader;
 import java.util.*;
 import java.util.Random;
 
@@ -121,8 +128,7 @@ public class GameBoard {
         return i;
     }
 
-    public void play() throws SquareException, Exception {
-
+    public void createAllPleyer() throws SquareException, Exception {
         createGameDeck();
         playersV1 = new CircularList<>();
         System.out.print("Enter count of players: ");
@@ -134,8 +140,13 @@ public class GameBoard {
             System.out.print("Enter name: ");
             name = sc.next();
             addpalyer(name);
-
         }
+        play();
+    }
+
+    public void play() {
+
+
         while (numberOfRounds <= 10) {
             // while (numberOfRounds <= 10) {
             for (int i = 0; i < numberOfPlayers; i++) {
@@ -200,11 +211,54 @@ public class GameBoard {
                 System.out.print("\n");
 
             }
+            System.out.println("Do you want to save this status game?" + "\n" + "if (true) write (YES))");
+            String line = sc.nextLine();
+            if (line.contains("YES")) {
+                saveStatusGame();
+            }
             numberOfRounds++;
 
         }
 
 
+    }
+
+    private void saveStatusGame() {
+        InformationOfGame informationOfGame = new InformationOfGame();
+        informationOfGame.setPlayers(playersV1);
+        informationOfGame.setNumberRound(numberOfRounds);
+        informationOfGame.setNumberOfPlayers(numberOfPlayers);
+
+        Gson gsons = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println("Укажите путь сохранения");
+        String path = sc.nextLine();
+        try (FileWriter fileWriter = new FileWriter(path)) {
+            gsons.toJson(informationOfGame, fileWriter);
+            System.out.println("Successful!");
+        } catch (IOException e) {
+            System.out.println("Exception,try again please");
+            saveStatusGame();
+        }
+    }
+
+    public void readJsonFromFile() throws Exception, SquareException {
+        System.out.println("Укажите путь до файла");
+        String path = sc.nextLine();
+        try (Reader reader = new FileReader(path)) {
+            Gson gson = new Gson();
+            InformationOfGame saveGameJson = gson.fromJson(reader, InformationOfGame.class);
+            playersV1 = saveGameJson.getPlayers();
+            numberOfRounds = saveGameJson.getNumberRound();
+            numberOfPlayers = saveGameJson.getNumberOfPlayers();
+            reader.close();
+            System.out.println("Successful!");
+        } catch (IOException e) {
+
+            System.out.println("Exception,try again please");
+            readJsonFromFile();
+        }
+        createGameDeck();
+        play();
     }
 
 
