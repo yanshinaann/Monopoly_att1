@@ -1,0 +1,18 @@
+{
+  "players": [
+    {
+      "colorID": "A",
+      "money": 5341,
+      "position": 3,
+      "countCircles": 6
+    },
+    {
+      "colorID": "B",
+      "money": 5034,
+      "position": 4,
+      "countCircles": 6
+    }
+  ],
+  "numberOfPlayers": 2,
+  "numberRound": 5
+}
